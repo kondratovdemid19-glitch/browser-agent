@@ -1,0 +1,20 @@
+{
+  "name": "browser-agent",
+  "version": "1.0.0",
+  "description": "Autonomous AI browser agent powered by Claude",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "install-browser": "npx playwright install chromium"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "dotenv": "^16.4.0",
+    "playwright": "^1.49.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
