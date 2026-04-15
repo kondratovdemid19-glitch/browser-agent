@@ -16,6 +16,15 @@ async function main() {
 
   const agent = new BrowserAgent();
 
+  // Graceful shutdown on Ctrl+C
+  const shutdown = async () => {
+    console.log('\n\x1b[33mShutting down...\x1b[0m');
+    await agent.stop();
+    process.exit(0);
+  };
+  process.on('SIGINT', shutdown);
+  process.on('SIGTERM', shutdown);
+
   try {
     await agent.start();
 
@@ -38,7 +47,6 @@ async function main() {
     await agent.stop();
   }
 
-  console.log('\nGoodbye!');
   process.exit(0);
 }
 

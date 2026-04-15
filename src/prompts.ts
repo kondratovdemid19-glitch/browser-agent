@@ -145,6 +145,21 @@ export const TOOLS: Anthropic.Tool[] = [
     },
   },
   {
+    name: 'hover',
+    description:
+      'Hover over an element (useful for dropdown menus, tooltips, or elements that appear on hover).',
+    input_schema: {
+      type: 'object' as const,
+      properties: {
+        element_id: {
+          type: 'integer',
+          description: 'The [index] of the element to hover over',
+        },
+      },
+      required: ['element_id'],
+    },
+  },
+  {
     name: 'go_back',
     description: 'Go back to the previous page in browser history.',
     input_schema: {

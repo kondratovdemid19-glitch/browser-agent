@@ -296,6 +296,20 @@ export class BrowserController {
     }
   }
 
+  async hover(elementId: number): Promise<string> {
+    const page = this.getPage();
+    const sel = `[data-ag-id="${elementId}"]`;
+    try {
+      const el = page.locator(sel);
+      await el.scrollIntoViewIfNeeded({ timeout: 3000 });
+      await el.hover({ timeout: 3000 });
+      await this.settle();
+      return `Hovered [${elementId}]`;
+    } catch (e: any) {
+      return `Hover [${elementId}] failed: ${e.message}`;
+    }
+  }
+
   async pressKey(key: string): Promise<string> {
     const page = this.getPage();
     try {
@@ -384,8 +398,13 @@ export class BrowserController {
   private async settle(): Promise<void> {
     const page = this.getPage();
     try {
-      await page.waitForLoadState('domcontentloaded', { timeout: 5000 });
+      await page.waitForLoadState('domcontentloaded', { timeout: 3000 });
     } catch {}
-    await new Promise((r) => setTimeout(r, 600));
+    // Try to wait for network idle (fast on static pages, capped on SPAs)
+    try {
+      await page.waitForLoadState('networkidle', { timeout: 2000 });
+    } catch {}
+    // Minimum pause for JS-rendered content
+    await new Promise((r) => setTimeout(r, 300));
   }
 }
